@@ -1,0 +1,50 @@
+class Dancer{
+ boolean isDancing = false;
+ PVector location;
+ PVector velocity;
+ PVector acceleration;
+ int size;
+ int rColor = (int)(Math.random()*127)+127;
+ int gColor = 200;
+ int bColor = (int)(Math.random()*127)+127;
+ float squishOffset, squishSpeed = 0.5;
+ 
+  Dancer(int x, int y, int s){
+    location = new PVector(x,y);
+    size = s;
+   }
+  
+  void update(){
+    beginShape();
+    noStroke();
+    fill(rColor,gColor,bColor);
+    ellipse(location.x,location.y,size + squishOffset,size);
+    fill(0);
+    ellipse(location.x - (size*0.2) ,location.y - (size*0.1), size*0.2, size*0.2);
+    ellipse(location.x + (size*0.2) ,location.y - (size*0.1), size*0.2, size*0.2);
+    drawMouth();
+    endShape();
+    if(isDancing){
+      squish(); 
+    }
+  }
+  
+  void drawMouth(){
+    fill(200,0,0);
+    if(isDancing){
+      vertex(location.x-(size*0.2),location.y+(size*0.2));
+      vertex(location.x,location.y+(size*0.4));
+      vertex(location.x+(size*0.2),location.y+(size*0.2));
+      vertex(location.x-(size*0.2),location.y+(size*0.2));
+    } else{
+      ellipse(location.x, location.y + (size*0.2), size*0.3,size*0.2);
+    }
+  }
+  
+  void squish(){
+   if(squishOffset < 0 || squishOffset > 10){
+    squishSpeed *= -1; 
+   }
+   squishOffset += squishSpeed;
+  }  
+}
