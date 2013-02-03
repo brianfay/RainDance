@@ -1,0 +1,15 @@
+Dancer dancer = new Dancer(Math.random()*800,600/1.5,50);
+
+void setup(){
+ size(800,600);
+ smooth();
+}
+
+
+void draw(){
+  background(172,224,240);
+  fill(127);
+  rect(0, height/1.5, width, height - (height/1.5));
+  dancer.update();
+}
+
