@@ -1,15 +1,22 @@
-Dancer dancer = new Dancer(Math.random()*800,600/1.5,50);
+Dancer dancer[] = new Dancer[20];
+maxSize = 55;
+minSize = 20;
 
 void setup(){
- size(800,600);
- smooth();
+ frameRate(60);
+	size(800,600);
+	for(int i = 0; i < dancer.length; i++){
+		dancer[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
+	}
+	smooth();
 }
 
 
 void draw(){
-  background(172,224,240);
-  fill(127);
-  rect(0, height/1.5, width, height - (height/1.5));
-  dancer.update();
+	background(172,224,240);
+	fill(127);
+	rect(0, height/1.5, width, height - (height/1.5));
+	for(int i = 0; i < dancer.length; i ++){
+		dancer[i].update();
+	}
 }
-
