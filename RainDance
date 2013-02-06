@@ -1,9 +1,10 @@
 Dancer dancer[] = new Dancer[10];
-Bird bird = new Bird(400,100,20);
 Cursor cursor = new Cursor();
+BirdSet theBirds;
 
-maxSize = 55;
-minSize = 20;
+int maxSize = 55;
+int minSize = 20;
+int birdCount = 0;
 
 void setup(){
 	frameRate(60);
@@ -11,18 +12,25 @@ void setup(){
 	for(int i = 0; i < dancer.length; i++){
 		dancer[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
 	}
+	theBirds = new BirdSet();
 	smooth();
 }
 
 
 void draw(){
 	background(172,224,240);
+	theBirds.addBird();
 	fill(127);
 	noStroke();
 	rect(0, height/1.5, width, height - (height/1.5));
-	for(int i = 0; i < dancer.length; i ++){
+	for(int i = 0; i < dancer.length; i++){
 		dancer[i].update();
 	}
-	bird.update();
+	theBirds.updateBirds();
 	cursor.update();
+}
+
+
+void mousePressed(){
+//	theBirds.addBird();
 }
