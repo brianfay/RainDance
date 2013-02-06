@@ -1,6 +1,6 @@
 class Bird{
 	int birdSize;
-	int flapSpeed = (int)(Math.random()*4)+1;
+	int flapSpeed = (int)(Math.random()*10)+1;
 	int flapOffset = 0;
 	boolean isFlying = false;
 	PVector location;
@@ -10,6 +10,8 @@ class Bird{
 	int ySpeed = (Math.random()*60)+5;
 	int perlinDirection = 1;
 	boolean hasCollided = false;
+	float chirpIndex = 0;
+	float chirpSize = 0;
  
 	int rColor = (int)(Math.random()*127)+127;;
 	int gColor = (int)(Math.random()*127)+127;
@@ -31,6 +33,9 @@ class Bird{
 		vertex(location.x + birdSize/2, birdSize + location.y);
 		vertex(birdSize + location.x,location.y + flapOffset);
 		endShape();
+		if(hasCollided){
+				chirpHalo();
+		}
 	}
   
 	void flap(){	
@@ -47,20 +52,22 @@ class Bird{
 			return;
 		}
 		else{
-			if((location.y >= cursor.location && 
-				location.y <= (cursor.location + cursor.cursorSize))
-				|| (location.y+birdSize >= cursor.location &&
-				location.y <= (cursor.location + cursor.cursorSize))){
+			if((location.y >= cursor.location.y && 
+				location.y <= (cursor.location.y + cursor.cursorSize))
+				|| (location.y+birdSize >= cursor.location.y &&
+				location.y <= (cursor.location.y + cursor.cursorSize))){
 			
-				if(((location.x >= (width/2 - cursor.cursorSize/2)) &&
-				(location.x <= (width/2 - cursor.cursorSize/2 + cursor.cursorSize)))
-				
-				|| (((location.x+birdSize) >= (width/2 - cursor.cursorSize/2)) &&
-				(location.x <= (width/2 - cursor.cursorSize/2 + cursor.cursorSize)))){
-					hasCollided = true;
-					println("Collision!");
+					if((location.x >= cursor.location.x && 
+						location.x <= (cursor.location.x + cursor.cursorSize))
+						|| (location.x+birdSize >= cursor.location.x &&
+						location.x <= (cursor.location.x + cursor.cursorSize))){
+							//bird has entered bound box, trigger chirp!
+							hasCollided = true;
+							score.touchBird();
+							gameSounds.playSynth();
+							//println("Collision!");
+					}		
 				}		
-			}		
 		}
 	}
 	void fly(){
@@ -91,6 +98,15 @@ class Bird{
 		}	
 		noiseIndex += 0.01;
 		update();
+	}
+	
+	void chirpHalo(){
+		strokeWeight(3);
+		stroke(0,0,255,100);
+		chirpSize = abs(sin(chirpIndex));
+		chirpIndex += 0.1;
+		noFill();
+		ellipse(location.x+birdSize/2,location.y+birdSize,birdSize*chirpSize,birdSize*chirpSize);
 	}
 	
 	boolean checkYBounds(float yVal){
