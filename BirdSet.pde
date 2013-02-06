@@ -1,12 +1,12 @@
 class BirdSet{
-  ArrayList<Bird> birds;
+	ArrayList<Bird> birds;
 	
 	BirdSet(){
 		birds = new ArrayList<Bird>();
 	}
 	
 	void addBird(){
-		int randChance = (int)(Math.random()*120);
+		int randChance = (int)(Math.random()*60);
 		if(randChance == 1){
 			int size = (int)(Math.random()*50+10);
 			int yLoc = (int)(Math.random()*(400-size));
@@ -21,6 +21,10 @@ class BirdSet{
 				Bird b = (Bird)birds.get(i);
 				b.fly();
 				if(b.isDead()){
+					if(!b.hasCollided){
+						//println("One got away!");
+						score.birdEscaped();
+					}
 					birds.remove(b);
 				}
 			}
