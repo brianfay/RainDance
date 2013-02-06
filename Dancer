@@ -10,6 +10,8 @@ class Dancer{
 	int bColor = (int)(Math.random()*127)+127;
 	float squishOffset, squishSpeed = 1;
 	float noiseIndex = 0, bounceIndex = 0, bounceIncr;
+	float haloSize;
+	float haloIndex = 0;
  
 	Dancer(int x, int y, int s){
 		location = new PVector(x,y);
@@ -38,6 +40,10 @@ class Dancer{
 		if(isDancing){
 			squish();
 			bounce();
+			danceHalo();
+		}
+		else{
+			velocity.y = 0;
 		}
 	}
   
@@ -81,13 +87,29 @@ class Dancer{
 		};
 	}	 
 	
-}
-/*
-	void mousePressed(){
-		for(int i = 0; i < dancer.length; i++)
+	void danceHalo(){
+		strokeWeight(3);
+		stroke(0,255,0,100);
+		haloSize = abs(sin(haloIndex)*2);
+		haloIndex += 0.1;
+		noFill();
+		ellipse(location.x,location.y,size*haloSize,size*haloSize);
+	}	
+			
+	void startDancer(){
+	for(int i = 0; i < dancer.length; i++)
 			if(!dancer[i].isDancing){
 				dancer[i].isDancing = true;
 				break;
-				}
+		}	
 	}
-*/
+	
+	void stopDancer(){
+	for(int i = dancer.length - 1; i >= 0; i--){
+			if(dancer[i].isDancing){
+				dancer[i].isDancing = false;
+				break;
+			}
+		}
+	}
+}
