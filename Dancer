@@ -82,7 +82,7 @@ class Dancer{
 	}	 
 	
 }
-
+/*
 	void mousePressed(){
 		for(int i = 0; i < dancer.length; i++)
 			if(!dancer[i].isDancing){
@@ -90,3 +90,4 @@ class Dancer{
 				break;
 				}
 	}
+*/
