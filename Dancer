@@ -1,5 +1,5 @@
 class Dancer{
- boolean isDancing = true;
+	boolean isDancing = false;
 	PVector location;
 	PVector velocity;
 	PVector acceleration;
@@ -8,7 +8,7 @@ class Dancer{
 	int rColor = (int)(Math.random()*127)+127;
 	int gColor = 200;
 	int bColor = (int)(Math.random()*127)+127;
-	float squishOffset, squishSpeed = 0.5;
+	float squishOffset, squishSpeed = 1;
 	float noiseIndex = 0, bounceIndex = 0, bounceIncr;
  
 	Dancer(int x, int y, int s){
@@ -49,7 +49,7 @@ class Dancer{
 			vertex(location.x+(size*0.2),location.y+(size*0.2));
 			vertex(location.x-(size*0.2),location.y+(size*0.2));
 		} else{
-			ellipse(location.x, location.y + (size*0.2), size*0.3,size*0.2);
+			ellipse(location.x, location.y + (size*0.2), size*0.4,size*0.1);
 			}
 	}
 	
@@ -76,8 +76,17 @@ class Dancer{
 		velocity.y = sin(bounceIndex);
 		//println(velocity.y);
 		bounceIndex += bounceIncr;
-		bounceIndex %= PI * 2;
+		if (bounceIndex >= 2 * PI){
+			bounceIndex -= 2 * PI;
+		};
 	}	 
+	
 }
 
-
+	void mousePressed(){
+		for(int i = 0; i < dancer.length; i++)
+			if(!dancer[i].isDancing){
+				dancer[i].isDancing = true;
+				break;
+				}
+	}
