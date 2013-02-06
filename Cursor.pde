@@ -1,7 +1,7 @@
 class Cursor{
-  int location = mouseY;
+	int location = mouseY;
 	int cursorSize = 50;
-	int cursorSpeed = 10;
+	int cursorSpeed = 20;
 	void update(){
 		strokeWeight(1);
 		stroke(0);
