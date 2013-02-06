@@ -1,6 +1,17 @@
 Dancer dancer[] = new Dancer[10];
 Cursor cursor = new Cursor();
 BirdSet theBirds;
+interface JavaScript{
+	void playSynth();
+}
+
+void bindJavascript(JavaScript js){
+	gameSounds = js;
+}
+
+JavaScript gameSounds;
+
+Score score = new Score();
 
 int maxSize = 55;
 int minSize = 20;
@@ -8,6 +19,7 @@ int birdCount = 0;
 
 void setup(){
 	frameRate(60);
+	noCursor();
 	size(800,600);
 	for(int i = 0; i < dancer.length; i++){
 		dancer[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
@@ -28,9 +40,5 @@ void draw(){
 	}
 	theBirds.updateBirds();
 	cursor.update();
-}
-
-
-void mousePressed(){
-//	theBirds.addBird();
+	score.update();
 }
