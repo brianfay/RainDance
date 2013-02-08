@@ -1,8 +1,11 @@
-Dancer dancer[] = new Dancer[5];
-Dancer menuDancers[] = new Dancer[3];
-CloudSet theClouds = new CloudSet();
+Dancer dancer[] = new Dancer[8];
+Dancer menuDancers[] = new Dancer[10];
+Dancer loseScreenDancers[] = new Dancer[10];
+
+CloudSet theClouds;
 Rain theRain;
-Cursor cursor = new Cursor();
+Cursor cursor;
+Score score;
 BirdSet theBirds;
 boolean gameWon = false;
 boolean gameLost = false;
@@ -11,6 +14,8 @@ boolean loseScreenIsOn = false;
 
 interface JavaScript{
 	void playSynth();
+	void setNotePlayable();
+	void setNoteUnplayable();
 }
 
 void bindJavascript(JavaScript js){
@@ -18,8 +23,6 @@ void bindJavascript(JavaScript js){
 }
 
 JavaScript gameSounds;
-
-Score score = new Score();
 
 int maxSize = 55;
 int minSize = 20;
@@ -32,21 +35,32 @@ void setup(){
 	size(800,600);
 	
 	for(int i = 0; i < dancer.length; i++){
+		setNoteUnplayable();
+	}
+	
+	cursor = new Cursor();
+	theClouds = new CloudSet();
+	for(int i = 0; i < dancer.length; i++){
 		dancer[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
 	}
 	for(int i = 0; i < menuDancers.length; i++){
 		menuDancers[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
 		menuDancers[i].isDancing = true;
 	}
+	for(int i = 0; i < loseScreenDancers.length; i++){
+		loseScreenDancers[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
+		loseScreenDancers[i].isFrowning = true;
+		loseScreenDancers[i].isCrying = true;
+	}
 	theBirds = new BirdSet();
 	theRain = new Rain();
+	score = new Score();
 	smooth();
 }
 
 
 void draw(){
 	if(menuScreenIsOn){
-
 		background(0);
 		fill(255,255,255);
 		textFont(createFont("Georgia", 36));
@@ -73,6 +87,23 @@ void draw(){
 		rect(mouseX,mouseY,5,5);
 		return;
 	}
+	if(loseScreenIsOn){
+		background(0);
+		textFont(createFont("Georgia", 36));
+		textAlign(CENTER,CENTER);
+		fill(255,255,255);
+		text("The cloud has left without raining!", width/2, height*(1/6));
+		if((mouseY > (height*(1/2) - 20))&&(mouseY<height*(1/2)+20)){
+			fill(0,0,255);
+		}
+		text("Play Again",width/2,height*(1/2));
+		for(int i = 0; i<loseScreenDancers.length; i++){
+			loseScreenDancers[i].update();
+		}
+		fill(255,255,255);
+		rect(mouseX,mouseY,5,5);
+		return;
+	}
 
 	background(175,175,200);
 	theBirds.addBird();
@@ -82,18 +113,34 @@ void draw(){
 	for(int i = 0; i < dancer.length; i++){
 		dancer[i].update();
 	}
+	if(gameWon){
+		theRain.addRainDrop();
+		theRain.updateRainDrops();
+		fill(255,255,255);
+		textFont(createFont("Georgia", 36));
+		textAlign(CENTER,CENTER);
+		text("You Win!!!", width/2, height*(2/6));
+		if((mouseY > (height*(1/2) - 20))&&(mouseY<height*(1/2)+20)){
+			fill(0,0,255);
+		}
+		text("Play Again",width/2,height*(1/2));
+	}
 	theClouds.update();
 	theBirds.updateBirds();
 	cursor.update();
 	score.update();
-	if(gameWon){
-		theRain.addRainDrop();
-		theRain.updateRainDrops();
-	}
 }
 
 void mousePressed(){
 		if((mouseY > (height*(7/9) - 20))&&(mouseY<height*(7/9)+20)){
 			menuScreenIsOn = false;
+		}
+		if(loseScreenIsOn || gameWon){
+			if((mouseY > (height*(1/2) - 20))&&(mouseY<height*(1/2)+20)){
+				setup();
+				loseScreenIsOn = false;
+				gameWon = false;
+				menuScreenIsOn = true;
+			}
 		}
 }
