@@ -6,7 +6,7 @@ class BirdSet{
 	}
 	
 	void addBird(){
-		int randChance = (int)(Math.random()*60);
+		int randChance = (int)(Math.random()*40);
 		if(randChance == 1){
 			int size = (int)(Math.random()*50+10);
 			int yLoc = (int)(Math.random()*(400-size));
