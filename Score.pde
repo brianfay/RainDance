@@ -1,6 +1,6 @@
 class Score{
 	boolean[] birdsTouched = new boolean[10];
-	PVector scoreBoardLocation = new PVector(200,500);
+	PVector scoreBoardLocation = new PVector(300,500);
 	int scoreBoardSize = 10;
 
 	
@@ -12,7 +12,7 @@ class Score{
 	
 	void update(){
 		noStroke();
-		checkWinLose();
+		checkWin();
 		for(int i = 0; i<birdsTouched.length; i++){
 			if(birdsTouched[i]){
 				fill(255);
@@ -20,7 +20,9 @@ class Score{
 			else{
 				fill(100);
 			}
-			rect(scoreBoardLocation.x+(i*scoreBoardSize*2), scoreBoardLocation.y, scoreBoardSize, scoreBoardSize);
+			if(!gameWon){
+				rect(scoreBoardLocation.x+(i*scoreBoardSize*2), scoreBoardLocation.y, scoreBoardSize, scoreBoardSize);
+				}
 		}
 	}
 	
@@ -49,16 +51,12 @@ class Score{
 		}
 	}
 	
-	void checkWinLose(){
+	void checkWin(){
 		if(dancer[(dancer.length-1)].isDancing){
 			if(!gameWon){
 				gameWon = true;
 				//println("You win!");
 			}	
-		}
-		if(gameLost){
-				println("You lose!");
-				noLoop();
 		}
 	}
 }
