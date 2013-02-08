@@ -19,7 +19,7 @@ class CloudBlob{
    }
    
    void changeColor(){
-  cloudColor += 0.1;
+	cloudColor += 0.1;
    }
    
    void moveCloud(){
