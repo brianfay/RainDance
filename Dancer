@@ -113,3 +113,8 @@ class Dancer{
 		}
 	}
 }
+/*
+void mousePressed(){
+	dancer[0].startDancer();
+}
+*/
