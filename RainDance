@@ -1,6 +1,14 @@
-Dancer dancer[] = new Dancer[10];
+Dancer dancer[] = new Dancer[5];
+Dancer menuDancers[] = new Dancer[3];
+CloudSet theClouds = new CloudSet();
+Rain theRain;
 Cursor cursor = new Cursor();
 BirdSet theBirds;
+boolean gameWon = false;
+boolean gameLost = false;
+boolean menuScreenIsOn = true;
+boolean loseScreenIsOn = false;
+
 interface JavaScript{
 	void playSynth();
 }
@@ -17,28 +25,75 @@ int maxSize = 55;
 int minSize = 20;
 int birdCount = 0;
 
+
 void setup(){
 	frameRate(60);
 	noCursor();
 	size(800,600);
+	
 	for(int i = 0; i < dancer.length; i++){
 		dancer[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
 	}
+	for(int i = 0; i < menuDancers.length; i++){
+		menuDancers[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
+		menuDancers[i].isDancing = true;
+	}
 	theBirds = new BirdSet();
+	theRain = new Rain();
 	smooth();
 }
 
 
 void draw(){
-	background(172,224,240);
+	if(menuScreenIsOn){
+
+		background(0);
+		fill(255,255,255);
+		textFont(createFont("Georgia", 36));
+		textAlign(CENTER,CENTER);
+		text("Rain Dance", width/2, height*(1/6));
+		textFont(createFont("Georgia",24));
+			if((mouseY > (height*(7/9) - 20))&&(mouseY<height*(7/9)+20)){
+				fill(0,0,255);
+			}
+			textAlign(CENTER,CENTER);
+			text("Play",width/2,height*(7/9));
+			fill(255,255,255);
+			
+			textAlign(LEFT,CENTER);
+			text("Make it rain before the cloud passes!",width/4,height*(3/9));
+			text("Hover the mouse over birds to make them sing.",width/4,height*(4/9));
+			text("If enough birds sing, these guys will be happy!",width/4,height*(5/9));			
+		
+		for(int i = 0; i < menuDancers.length; i++){
+			menuDancers[i].update();
+		}		
+		noStroke();
+		fill(255,255,255);
+		rect(mouseX,mouseY,5,5);
+		return;
+	}
+
+	background(175,175,200);
 	theBirds.addBird();
-	fill(127);
+	fill(82,151,52);
 	noStroke();
 	rect(0, height/1.5, width, height - (height/1.5));
 	for(int i = 0; i < dancer.length; i++){
 		dancer[i].update();
 	}
+	theClouds.update();
 	theBirds.updateBirds();
 	cursor.update();
 	score.update();
+	if(gameWon){
+		theRain.addRainDrop();
+		theRain.updateRainDrops();
+	}
+}
+
+void mousePressed(){
+		if((mouseY > (height*(7/9) - 20))&&(mouseY<height*(7/9)+20)){
+			menuScreenIsOn = false;
+		}
 }
