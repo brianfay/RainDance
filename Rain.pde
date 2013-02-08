@@ -1,5 +1,5 @@
 class Rain{
-  ArrayList<RainDrop> rain;
+	ArrayList<RainDrop> rain;
 	
 	Rain(){
 		rain = new ArrayList<RainDrop>();
