@@ -1,5 +1,5 @@
 class CloudSet{
-  CloudBlob[] clouds = new CloudBlob[500];
+	CloudBlob[] clouds = new CloudBlob[500];
 	float cloudLocation = 0;
   
 	CloudSet(){
@@ -20,6 +20,7 @@ class CloudSet{
 			}	
 		if(cloudLocation >= width){
 			gameLost = true;
+			loseScreenIsOn = true;
 		}
 	}
 }
