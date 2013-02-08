@@ -1,5 +1,5 @@
 class Score{
-  boolean[] birdsTouched = new boolean[10];
+	boolean[] birdsTouched = new boolean[10];
 	PVector scoreBoardLocation = new PVector(200,500);
 	int scoreBoardSize = 10;
 
@@ -12,6 +12,7 @@ class Score{
 	
 	void update(){
 		noStroke();
+		checkWinLose();
 		for(int i = 0; i<birdsTouched.length; i++){
 			if(birdsTouched[i]){
 				fill(255);
@@ -43,7 +44,21 @@ class Score{
 				return;
 			}
 		}
-		println("Stop Dancer Called");
-		dancer[0].stopDancer();
+		if(!gameWon){
+			dancer[0].stopDancer();
+		}
+	}
+	
+	void checkWinLose(){
+		if(dancer[(dancer.length-1)].isDancing){
+			if(!gameWon){
+				gameWon = true;
+				//println("You win!");
+			}	
+		}
+		if(gameLost){
+				println("You lose!");
+				noLoop();
+		}
 	}
 }
