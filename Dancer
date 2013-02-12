@@ -120,6 +120,7 @@ class Dancer{
 			if(!dancer[i].isDancing){
 				dancer[i].isDancing = true;
 				setNotePlayable();
+				numDancersDancing++;
 				break;
 		}	
 	}
@@ -129,6 +130,7 @@ class Dancer{
 			if(dancer[i].isDancing){
 				dancer[i].isDancing = false;
 				setNoteUnplayable();
+				numDancersDancing--;
 				break;
 			}
 		}
