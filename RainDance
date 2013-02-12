@@ -11,9 +11,11 @@ boolean gameWon = false;
 boolean gameLost = false;
 boolean menuScreenIsOn = true;
 boolean loseScreenIsOn = false;
+int numDancersDancing = 0;
 
 interface JavaScript{
-	void playSynth();
+	void audioIsSupported();
+	void playChirp();
 	void setNotePlayable();
 	void setNoteUnplayable();
 }
@@ -41,7 +43,7 @@ void setup(){
 	cursor = new Cursor();
 	theClouds = new CloudSet();
 	for(int i = 0; i < dancer.length; i++){
-		dancer[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
+		dancer[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize)
 	}
 	for(int i = 0; i < menuDancers.length; i++){
 		menuDancers[i] = new Dancer((int)(Math.random()*800),400,(int)(Math.random()*(maxSize - minSize))+minSize);
