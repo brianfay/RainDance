@@ -1,6 +1,6 @@
 class Bird{
 	int birdSize;
-	int flapSpeed = (int)(Math.random()*10)+5;
+	int flapSpeed = (int)(Math.random()*6)+1+numDancersDancing;
 	int flapOffset = 0;
 	boolean isFlying = false;
 	PVector location;
@@ -64,7 +64,9 @@ class Bird{
 							//bird has entered bound box, trigger chirp!
 							hasCollided = true;
 							score.touchBird();
-							gameSounds.playChirp();
+							if(gameSounds.audioIsSupported()){
+								gameSounds.playChirp();
+								}
 							//println("Collision!");
 					}		
 				}		
