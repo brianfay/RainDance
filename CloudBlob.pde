@@ -23,6 +23,8 @@ class CloudBlob{
    }
    
    void moveCloud(){
-	locationX += 0.1;
+   if(!gameWon){
+		locationX += 0.07;
+	}
    }
 }
