@@ -1,4 +1,11 @@
-var context = new webkitAudioContext();
+var contextIsSupported = false;
+try{
+	var context = new webkitAudioContext();
+	contextIsSupported = true;
+}
+catch(e){
+	alert('Note: The Web Audio API is unsupported in this browser. Google Chrome may be a nice alternative');
+}
 var bound = false;
 
 function bindJavascript(){
@@ -10,6 +17,10 @@ function bindJavascript(){
 	if(!bound)setTimeout(bindJavascript,250);
 }
 bindJavascript();
+
+function audioIsSupported(){
+	return contextIsSupported;
+}
 
 var soundSource, soundBuffer;
 var majorScale = [0, 2, 4, 5, 7, 9, 11, 12];
@@ -97,8 +108,9 @@ function scheduler(){
 		}	
 	}
 }
-window.setInterval(function(){scheduler()},2000);
-
+if(contextIsSupported){
+	window.setInterval(function(){scheduler()},2000);
+}
 function mtof(freq, shift){
 	var adjFreq = freq*(Math.pow(2,(shift/12)));
 	return adjFreq;
