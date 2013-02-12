@@ -1,5 +1,5 @@
 class RainDrop{
-  PVector location;
+	PVector location;
 	
 	RainDrop(){
 		location = new PVector((Math.random()*200 + theClouds.cloudLocation),Math.random()*30+80);
