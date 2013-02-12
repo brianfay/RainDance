@@ -16,8 +16,9 @@ class CloudSet{
 			}
 		}
 			if(!gameWon){
-				cloudLocation += 0.1;
-			}	
+				cloudLocation += 0.07;
+			}
+
 		if(cloudLocation >= width){
 			gameLost = true;
 			loseScreenIsOn = true;
