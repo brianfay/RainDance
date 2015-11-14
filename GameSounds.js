@@ -1,6 +1,6 @@
 var contextIsSupported = false;
 try{
-	var context = new webkitAudioContext();
+	var context = new AudioContext();
 	contextIsSupported = true;
 }
 catch(e){
@@ -46,25 +46,24 @@ function setNoteUnplayable(){
 }
 
 function stopSound(soundSource, time){
-	soundSource.noteOff(context.currentTime + time);
 	soundSource.stop(context.currentTime + time);
 }
 
 function playChirp(){
 	var cosineHarmonics = new Float32Array([0,0,0]);
 	var sineHarmonics = new Float32Array([1,0.5,1]);
-	var myWaveTable = context.createWaveTable(cosineHarmonics,sineHarmonics);
-	var ampEnv = context.createGainNode();
+	var myWaveTable = context.createPeriodicWave(cosineHarmonics,sineHarmonics);
+	var ampEnv = context.createGain();
 	ampEnv.gain.value = 0;
 	var myOsc = context.createOscillator();
-	myOsc.setWaveTable(myWaveTable);
+	myOsc.setPeriodicWave(myWaveTable);
 	var fundamentalFreq = 440;
 	var scaleIndex = Math.floor(Math.random()*pentatonicScale.length);
 	var actualNote = mtof(fundamentalFreq, pentatonicScale[scaleIndex]);
 	
 	myOsc.connect(ampEnv);
 	myOsc.frequency.value = actualNote * 0.5;
-	myOsc.noteOn(context.currentTime);
+	myOsc.start(context.currentTime);
 	myOsc.frequency.setTargetAtTime(actualNote, context.currentTime, 0.05);	
 	ampEnv.gain.cancelScheduledValues(0);
 	ampEnv.gain.setTargetAtTime(0.1, context.currentTime, 0.001);
@@ -77,18 +76,18 @@ function playNote(index,startTime){
 	if(notePlayable[index]){
 	var cosineHarmonics = new Float32Array([0,0,0,0,0,0,0]);
 	var sineHarmonics = new Float32Array([1,(1/2),(1/3),(1/4),(1/5),(1/6),(1/7)]);
-	var myWaveTable = context.createWaveTable(cosineHarmonics,sineHarmonics);
-	var ampEnv = context.createGainNode();
+	var myWaveTable = context.createPeriodicWave(cosineHarmonics,sineHarmonics);
+	var ampEnv = context.createGain();
 	ampEnv.gain.value = 0;
 	var myOsc = context.createOscillator();
-	myOsc.setWaveTable(myWaveTable);
+	myOsc.setPeriodicWave(myWaveTable);
 	var fundamentalFreq = 220;
 	var scaleIndex = Math.floor(Math.random()*pentatonicScale.length);
 	var actualNote = mtof(fundamentalFreq, pentatonicScale[scaleIndex]);
 	
 	myOsc.connect(ampEnv);
 	myOsc.frequency.value = actualNote;
-	myOsc.noteOn(context.currentTime);
+	myOsc.start(context.currentTime);
 	ampEnv.gain.cancelScheduledValues(0);
 	ampEnv.gain.setTargetAtTime(0.1, context.currentTime + startTime, 0.001);
 	ampEnv.gain.setTargetAtTime(0, context.currentTime + 0.1 + startTime, 0.1);
